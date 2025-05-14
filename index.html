@@ -1,0 +1,890 @@
+<main class="flex-grow-1">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAO India Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+<!-- Font Awesome CDN -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+
+
+
+ <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+ <link rel="stylesheet" href="style.css">
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+     background: linear-gradient(to bottom, #0f3d3e, #1e3c58);
+     font-family: "Open Sans", sans-serif;
+      color: white;
+    }
+ #map-container {
+      width: 100%;          /* Or a fixed size like 600px */
+      max-width: 800px;     /* Limit the maximum width */
+      height: auto;
+      margin: auto;         /* Center the div horizontally */
+      
+    }
+    .header {
+       display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  flex-wrap: wrap;
+  min-height: 100px;
+  gap: 1rem;
+    }
+
+    .header .left-logo img,
+   .header .right-logo img {
+      max-height: 70px;
+    }
+
+
+     .header .welcome-text {
+      text-align: center;
+      font-size: 1.0rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-left: 80px;
+    }
+
+
+  
+    
+	.custom-card {
+  height: 180px; /* adjust size */
+}
+
+    .card-section {
+      padding: 2rem;
+    }
+
+    .card-img-overlay {
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      
+
+      position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+  
+    }
+
+    .custom-card img {
+      object-fit: cover;
+      height: 100%;
+      border-radius: 0.5rem;
+    }
+
+    .custom-card .card-title {
+      font-size: 1.2rem;
+      color: white;
+      padding:2px 0;
+      
+    }
+    .wrapper {
+  position: relative;
+  padding: 20px 0;
+ 
+}
+
+.news__item {
+  width: 340px;
+  height: 420px;
+  background: #ffffff15;
+  border-radius: 1rem;
+  overflow: hidden;
+  padding: 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, background 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* ensures left alignment */
+  justify-content: flex-start; /* avoids stretching */
+  text-align: left; 
+}
+.news__item:hover {
+  background: white;
+  transform: translateY(-5px);
+}
+.news__title {
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  transition: opacity 0.3s;
+}
+
+.news__txt {
+  margin: 10px 0;
+  line-height: 1.6em;
+  font-size: 11px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+.news__img img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+}
+.news-slider__arrow {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.news-slider__arrow:hover {
+  background: white;
+}
+
+.news-slider__item {
+  padding: 0 15px; /* Adds horizontal space between slides */
+  box-sizing: border-box;
+}
+.news-heading {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left:70px;
+  margin-bottom: 10pxrem;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+.news-section {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.news-slider {
+  margin-top: 0.5rem; /* Fine-tune spacing */
+}
+canvas {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px;
+}
+left-logo,
+.right-logo {
+  flex: 0 0 auto;
+}
+ .custom-footer {
+  background-color: #45526e;
+  color: white;
+
+  padding: 15px 10px;
+  /*box-shadow: 0 -1px 5px rgba(0,0,0,0.1);*/
+  width: 100%;
+}
+.custom-footer p{
+  font-size: 0.8rem;
+}
+
+.custom-footer h5{
+  font-size: 1rem;
+}
+ .chart-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .gender-chart {
+      display: flex;
+      gap: 40px;
+      align-items: flex-end;
+      position: relative;
+    }
+
+    .gender-block {
+      position: relative;
+      width: 120px;
+      height: 180px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .gender-block:hover {
+      transform: scale(1.05);
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .label {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+  .percentage-text {
+  position: absolute;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
+    #maleFillRect,
+    #femaleFillRect {
+      transition: y 1s ease-in-out;
+    }
+
+    .tooltip {
+      visibility: hidden;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 4px;
+      position: absolute;
+      bottom: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 10;
+    }
+
+    .gender-block:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+.chart-box {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px;
+}
+.responsive-gap {
+  margin-right: 20px;
+}
+
+.vertical-label-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-weight: bold;
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .news-slider__arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 576px) {
+  .responsive-gap {
+    margin-right: 30px;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-gap {
+    margin-right: 40px;
+  }
+}
+
+@media (min-width: 992px) {
+  .responsive-gap {
+    margin-right: 50px;
+  }
+}
+
+
+
+   
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Header Section -->
+  <div class="header container">
+  <div class="left-logo">
+    <img src="FAOlogo2.jpg" alt="FAO Logo" />
+  </div>
+ <h5 class="text-center">Welcome to the FAO India Dashboard </h5>
+    
+ 
+
+  
+
+  <div class="right-logo">
+    <img src="main/images/FAO_SDG_4b.png" alt="FAO 80 Logo" />
+  </div>
+</div>
+
+<!-- Charts Section -->
+<!-- Charts Section -->
+<div class="container my-5">
+  <!-- Top Row -->
+  <div class="mb-4">
+   <h5 class="text-start mb-3">FAO Impact in India</h5></br>
+  <div class="kpi-slider">
+    <div class="row text-center">
+<div class="col-md-4 mb-3">
+  <div class="position-relative p-3 rounded" style="background-color: #6ab04c; overflow: visible;">
+    
+    <!-- Positioned Icon -->
+    <i class="fa-solid fa-sack-dollar position-absolute" 
+       style="top: -20px; left: 10px; font-size: 4rem; color: white; z-index: 10;"></i>
+    
+    <!-- Content -->
+    <div style="position: relative; z-index: 2;" class="text-white">
+      <div style="font-size: 1.2rem;">Total Budget</div>
+      <strong style="font-size: 1.5rem;">$ 10,40,69,018</strong>
+    </div>
+  </div>
+</div>
+    <div class="col-md-4 mb-3">
+  <div class="position-relative p-3 rounded" style="background-color: #ff6262; overflow: visible;">
+    
+    <!-- Icon placed absolutely to the top-left -->
+    <i class="bi bi-kanban position-absolute" 
+       style="top: -30px; left: 10px; font-size: 4rem; color: white; z-index: 10;"></i>
+    
+    <!-- Content -->
+    <div style="position: relative; z-index: 2;" class="text-white">
+      <div style="font-size: 1.2rem;">Total Projects</div>
+      <strong style="font-size: 1.5rem;">25</strong>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-4 mb-3">
+  <div class="position-relative p-3 rounded" style="background-color: #ff6262; overflow: visible;">
+    
+    <!-- Icon placed absolutely to the top-left -->
+    <i class="fa-solid fa-list position-absolute" 
+       style="top: -20px; left: 10px; font-size: 4rem; color: white; z-index: 10;"></i>
+    
+    <!-- Content -->
+    <div style="position: relative; z-index: 2;" class="text-white">
+      <div style="font-size: 1.2rem;">Total Projects</div>
+      <strong style="font-size: 1.5rem;">25</strong>
+    </div>
+  </div>
+</div>
+</div>
+
+  <!-- Bottom Row -->
+  <div>
+    <h5 class="text-start mb-3">Current Portfolio</h5>
+       <div class="kpi-slider">
+    <div class="row text-center">
+      <div class="col-md-4 mb-3">
+        <div class="p-3 rounded" style="background-color: #00c4c4;">
+          <i class="bi bi-people-fill fs-2 mb-2"></i>
+          <div>Total Beneficiary</div>
+          <strong>0</strong>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="p-3 rounded" style="background-color: #c4c400;">
+          <i class="bi bi-clipboard-check fs-2 mb-2"></i>
+          <div>Area covered</div>
+          <strong>0</strong>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="p-3 rounded" style="background-color: #ab3173;">
+          <i class="bi bi-journal-richtext fs-2 mb-2"></i>
+          <div>Total Workshops</div>
+          <strong>0</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container my-5">
+
+ <div class="row g-4">
+    <div class="col-md-6">
+    
+        
+  <div class="chart-wrapper chart-box"">
+
+    <div class="gender-chart">
+     
+      <!-- Male -->
+      <div class="gender-block">
+        <div class="tooltip">Male participation rate: 80%</div>
+        <div class="percentage-text" id="malePercentText">80%</div>
+        <svg viewBox="0 0 64 128">
+          <defs>
+            <clipPath id="maleClip">
+              <rect id="maleFillRect" x="0" y="128" width="64" height="128" />
+            </clipPath>
+          </defs>
+          <path d="M32 0a12 12 0 1 1 0 24 12 12 0 0 1 0-24zm20 28H12a4 4 0 0 0-4 4v20a4 4 0 0 0 4 4h4v60a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V64h8v52a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V56h4a4 4 0 0 0 4-4V32a4 4 0 0 0-4-4z" fill="#e0f2f1"/>
+          <path d="M32 0a12 12 0 1 1 0 24 12 12 0 0 1 0-24zm20 28H12a4 4 0 0 0-4 4v20a4 4 0 0 0 4 4h4v60a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V64h8v52a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V56h4a4 4 0 0 0 4-4V32a4 4 0 0 0-4-4z"
+                fill="#009688" clip-path="url(#maleClip)" />
+        </svg>
+        <div class="label">Male</div>
+      </div>
+
+      <!-- Female -->
+      <div class="gender-block">
+        <div class="tooltip">Female participation rate: 75%</div>
+        <div class="percentage-text" id="femalePercentText">75%</div>
+        <svg viewBox="0 0 64 128">
+          <defs>
+            <clipPath id="femaleClip">
+              <rect id="femaleFillRect" x="0" y="128" width="64" height="128" />
+            </clipPath>
+          </defs>
+          <path d="M32 0a12 12 0 1 1 0 24 12 12 0 0 1 0-24zM24 28h16l8 48H16l8-48zM24 76h16v40H24z"
+                fill="#ffe0b2"/>
+          <path d="M32 0a12 12 0 1 1 0 24 12 12 0 0 1 0-24zM24 28h16l8 48H16l8-48zM24 76h16v40H24z"
+                fill="#d84315" clip-path="url(#femaleClip)" />
+        </svg>
+        <div class="label">Female</div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+      <canvas id="barChart" class="w-100 mt-4" style="height: 200px;"></canvas>
+  <div class="text-end mt-2">
+    <a href="#" style="color:blue; font-size:11px;">For more details</a>
+  </div>
+    </div>
+    <div class="col-md-6">
+     
+        <div id="visualization" style="width: 100%; height: 430px;"></div>
+    
+    </div>
+  
+</div>
+</div>
+
+
+  <!-- Card Grid -->
+  <!-- Card Grid -->
+<div class="container card-section">
+  <div class="row g-4">
+    <div class="col-12 col-md-4">
+ <a href="publicationtest.html" class="text-decoration-none">
+      <div class="card bg-dark text-white custom-card">
+        <img src="imges\publicationCard2.jpg" class="card-img" alt="Publications">
+        <div class="card-img-overlay">
+          <h5 class="card-title">Publications</h5>
+        </div>
+      </div>
+</a>
+    </div>
+
+    <div class="col-12 col-md-4">
+ <a href="FourBetters.html" class="text-decoration-none">
+      <div class="card bg-dark text-white custom-card">
+        <img src="imges\4better.jpg" class="card-img" alt="Four Betters">
+        <div class="card-img-overlay">
+          <h5 class="card-title">CPF</h5>
+         
+        </div>
+      </div>
+</a>
+    </div>
+
+    <div class="col-12 col-md-4">
+ <a href="success.html" class="text-decoration-none">
+      <div class="card bg-dark text-white custom-card">
+        <img src="imges\successcard2.png" class="card-img" alt="Success Stories">
+        <div class="card-img-overlay">
+          <h5 class="card-title">Success Stories</h5>
+        </div>
+      </div>
+</a>
+    </div>
+
+    <div class="col-12 col-md-4">
+     <a href="publicationtest.html" class="text-decoration-none">
+      <div class="card bg-dark text-white custom-card">
+        <img src="imges\potfoliocard2.jpg" class="card-img" alt="Project Portfolio">
+        <div class="card-img-overlay">
+          <h5 class="card-title">Project Portfolio</h5>
+        </div>
+      </div>
+   </a>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="card bg-dark text-white custom-card">
+        <img src="imges\Image1.jpg" class="card-img" alt="Country Reports">
+        <div class="card-img-overlay">
+          <h5 class="card-title">Image Gallery</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="card bg-dark text-white custom-card">
+        <img src="imges\projecthighlights.jpg" class="card-img" alt="Program Highlights">
+        <div class="card-img-overlay">
+          <h5 class="card-title">Videos Gallery</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+<div class="news-section text-center">
+ <h1 class="news-heading">News</h1>
+  <div class="news-slider">
+    <div class="news-slider__wrp swiper-wrapper">
+      <!-- Slide 1 -->
+      <div class="news-slider__item swiper-slide">
+        <a href="https://www.fao.org/india/news/detail-events/en/c/1736551/" target="blank" class="news__item">
+          <div class="news__title">FAO hosts knowledge-sharing session</div>
+          <p class="news__txt">A 35-member African delegation participating in the International Training Programme on ‘Livelihood Promotion through Self-Employment at the Grassroots Level’, conducted by the.....</p>
+          <div class="news__img"><img src="news1.jpg" alt="news"></div>
+        </a>
+      </div>
+      <div class="news-slider__item swiper-slide">
+        <a href="https://www.fao.org/india/news/detail-events/en/c/1735654/" target="blank" class="news__item">
+          <div class="news__title">Strengthening the Milk Value Chain in Chambal, Madhya Pradesh</div>
+          <p class="news__txt">The Chambal landscape in Madhya Pradesh, spanning the Morena and Sheopur districts, faces significant ecological and socio-economic challenges. </p>
+          <div class="news__img"><img src="milk.jpg" alt="news"></div>
+        </a>
+      </div>
+      <div class="news-slider__item swiper-slide">
+        <a href="https://www.fao.org/india/news/detail-events/en/c/1735374/" target="blank" class="news__item">
+          <div class="news__title">Nature’s groceries and safety net: how forests help feed the world better</div>
+          <p class="news__txt">Opinion Editorial by Dr QU Dongyu, Director-General of the Food and Agriculture Organization of the United Nations (FAO Our forests play a vital role in feeding the world.</p>
+          <div class="news__img"><img src="nature.jpg" alt="news"></div>
+        </a>
+      </div>
+      <div class="news-slider__item swiper-slide">
+        <a href="https://www.fao.org/india/news/detail-events/en/c/1735379/" target="blank" class="news__item">
+          <div class="news__title">Forests and agriculture can thrive together.</div>
+          <p class="news__txt">FAO’s Green-Ag project in India integrates forests and agriculture through agroecology across five diverse landscapes: Mizoram, Uttarakhand, Madhya Pradesh, Odisha, and Rajasthan.</p>
+          <div class="news__img"><img src="forest.jpg" alt="news"></div>
+        </a>
+      </div>
+
+       <div class="news-slider__item swiper-slide">
+        <a href="https://www.fao.org/india/news/detail-events/en/c/1734987/" target="blank" class="news__item">
+          <div class="news__title">FAO organized National Consultation with Farmers for Review 2025</div>
+          <p class="news__txt">The Food and Agriculture Organization of the United Nations (FAO), in collaboration with Watershed Support Services and Activities Network (WASSAN), organized a critical National Consultation with farmers on 7 March 2025.</p>
+          <div class="news__img"><img src="news5.jpg" alt="news"></div>
+        </a>
+      </div>
+
+     </div> <!-- Repeat other slides similarly -->
+    </div>
+    <div class="news-slider__ctr">
+      <button class="news-slider__arrow news-slider-prev">←</button>
+      <button class="news-slider__arrow news-slider-next">→</button>
+      <div class="news-slider__pagination"></div>
+    </div>
+  </div>
+</div>
+
+
+</main>
+<footer class="custom-footer mt-auto w-100">
+  <div class="container-fluid">
+    <div class="row text-center text-md-start">
+      <div class="col-12 col-md-3 mb-4 mb-md-0">
+        <h5>About FAO-India</h5>
+        <p>Learn more about FAO's mission and work in India to support sustainable agriculture and food security.</p>
+        <a href="https://www.fao.org/india/en/" target="_blank" class="text-light">Visit FAO-India Website</a>
+      </div>
+      <div class="col-12 col-md-3 mb-4 mb-md-0">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="https://greenag.nmsa.gov.in/" target="_blank" class="text-light" style="font-size:0.8rem">GEF-6: Green-Ag</a></li>
+          <li><a href="https://folur.amnex.co.in/" target="_blank" class="text-light"  style="font-size:0.8rem">GEF-7: FOLUR</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 col-md-3 mb-4 mb-md-0">
+        <h5>Connect With Us</h5>
+        <p>Stay informed via our social channels and email newsletters.</p>
+        
+        <a href="https://x.com/FAO" target="_blank" class="text-light d-block">Twitter</a>
+      </div>
+      <div class="col-12 col-md-3">
+        <h5>Contact</h5>
+        <p>FAO Representative in India<br>New Delhi, India</p>
+        <a href="mailto: fao-in@fao.org" class="text-light">fao-in@fao.org</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  var swiper = new Swiper('.news-slider', {
+  effect: 'coverflow',
+  grabCursor: true,
+  loop: true,
+  centeredSlides: true,
+  keyboard: true,
+  slidesPerView: 'auto',
+  spaceBetween: 0,
+ slidesOffsetBefore: 25,
+  slidesOffsetAfter: 25,
+  speed: 600,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false
+  },
+  coverflowEffect: {
+    rotate: 0,
+    stretch: 0,
+    depth: 100,
+    modifier: 3,
+    slideShadows: false
+  },
+  navigation: {
+    nextEl: '.news-slider-next',
+    prevEl: '.news-slider-prev'
+  },
+ pagination: {
+  el: '.news-slider__pagination',
+  clickable: true,
+},
+});
+</script>
+
+<script>
+
+
+  // Bar Chart
+  const barCtx = document.getElementById('barChart').getContext('2d');
+  new Chart(barCtx, {
+    type: 'bar',
+    data: {
+      labels: ['AP', 'MP', 'UP', 'Odisha','UK', 'Gujrat', 'Assam', 'MP','Delhi', 'Punjab', 'Haryana', 'Mizoram'],
+      datasets: [{
+        label: 'No Of Workshop',
+        data: [200, 250, 225, 150,240,100,170,160,120,150,140,230],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)'
+
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+           'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+           'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: 'white' } }
+      },
+      scales: {
+        x: { ticks: { color: 'white' } },
+        y: { beginAtZero: true, ticks: { color: 'white' } }
+      }
+    }
+  });
+</script>
+
+<script>
+  let geochart;
+  let data;
+  let opts;
+
+  google.load('visualization', '1', { 'packages': ['geochart'] });
+  google.setOnLoadCallback(drawVisualization);
+
+  function drawVisualization() {
+    data = google.visualization.arrayToDataTable([
+      ['State Code', 'State', 'Projects'],
+      ['IN-UP', 'Uttar Pradesh', 6],
+      ['IN-MH', 'Maharashtra', 5],
+      ['IN-BR','Bihar', 4],
+      ['IN-WB','West Bengal', 4],
+      ['IN-MP','Madhya Pradesh', 7],
+      ['IN-TN','Tamil Nadu', 4],
+      ['IN-RJ','Rajasthan', 6],
+      ['IN-KA','Karnataka', 5],
+      ['IN-GJ','Gujarat', 6],
+      ['IN-AP','Andhra Pradesh', 6],
+      ['IN-OR','Orissa', 10],
+      ['IN-TG','Telangana', 5],
+      ['IN-KL','Kerala', 5],
+      ['IN-JH','Jharkhand', 4],
+      ['IN-AS','Assam', 4],
+      ['IN-PB','Punjab', 6],
+      ['IN-CT','Chhattisgarh', 6],
+      ['IN-HR','Haryana', 6],
+      ['IN-JK','Jammu and Kashmir', 4],
+      ['IN-UT','Uttarakhand', 6],
+      ['IN-HP','Himachal Pradesh', 4],
+      ['IN-TR','Tripura', 4],
+      ['IN-ML','Meghalaya', 5],
+      ['IN-MN','Manipur', 4],
+      ['IN-NL','Nagaland', 5],
+      ['IN-GA','Goa', 4],
+      ['IN-AR', 'Arunachal Pradesh', 6],
+      ['IN-MZ','Mizoram', 5],
+      ['IN-SK','Sikkim', 6],
+      ['IN-DL','Delhi', 4],
+      ['IN-PY','Puducherry', 4],
+      ['IN-CH','Chandigarh', 4],
+      ['IN-AN','Andaman and Nicobar Islands', 4],
+      ['IN-DN','Dadra and Nagar Haveli', 4],
+      ['IN-DD','Daman and Diu', 4],
+      ['IN-LD', 'Lakshadweep', 4]
+    ]);
+
+    opts = {
+      region: 'IN',
+      domain: 'IN',
+      displayMode: 'regions',
+      resolution: 'provinces',
+      backgroundColor: '#1b6b6e',
+      defaultColor: '#f5f5f5',
+
+      // Group project counts into ranges with specific colors
+      colorAxis: {
+        values: [4, 6, 8, 10],
+        colors: ['#fdae61', '#fee08b', '#66bd63', '#1a9850'] 
+        // Adjust colors as needed
+      }
+    };
+
+    geochart = new google.visualization.GeoChart(document.getElementById('visualization'));
+    geochart.draw(data, opts);
+  }
+
+  // Redraw chart on window resize
+  window.addEventListener('resize', () => {
+    if (geochart && data && opts) {
+      geochart.draw(data, opts);
+    }
+  });
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('.kpi-slider').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      autoplay: false,
+      arrows: true,
+      dots: true,
+      responsive: [
+        {
+          breakpoint: 992,
+          settings: {
+            slidesToShow: 2
+          }
+        },
+        {
+          breakpoint: 576,
+          settings: {
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
+  });
+</script>
+<script>
+   const malePercent = 80;
+  const femalePercent = 75;
+  const totalHeight = 128;
+
+  function updateGenderChart(percent, fillRectId, textId, position) {
+    const fillY = totalHeight - (percent / 100) * totalHeight;
+    const fillRect = document.getElementById(fillRectId);
+    const text = document.getElementById(textId);
+
+    fillRect.setAttribute('y', fillY);
+    text.textContent = `${percent}%`;
+    text.style.top = `${Math.max(5, fillY - 20)}px`; // Keep above the fill
+
+    if (position === 'left') {
+      text.style.left = `0`;
+      text.style.right = `auto`;
+      text.style.textAlign = 'left';
+    } else if (position === 'right') {
+      text.style.right = `0`;
+      text.style.left = `auto`;
+      text.style.textAlign = 'right';
+    }
+  }
+
+  updateGenderChart(malePercent, 'maleFillRect', 'malePercentText', 'left');
+  updateGenderChart(femalePercent, 'femaleFillRect', 'femalePercentText', 'right');
+
+</script>
+
+
+
+
+
+<script src="main/js/jquery.min.js"></script>
+  <script src="main/js/popper.min.js"></script>
+  <script src="main/js/bootstrap.min.js"></script>
+  <script src="main/js/scripts.js"></script>
+
+</div></body>
+</html>
